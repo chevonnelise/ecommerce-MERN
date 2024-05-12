@@ -1,7 +1,7 @@
 import { SyntheticEvent, useState } from "react";
 import axios from 'axios';
 import {useCookies} from "react-cookie";
-import { UserErrors } from "../../errors";
+import { UserErrors } from "../../models/errors";
 import {useNavigate} from 'react-router-dom';
 
 export const AuthPage = () => {
@@ -72,7 +72,7 @@ const Login = () => {
     } catch (err) {
 
         let errorMessage: string = ""
-        switch (err.response.data.type) {
+        switch (err?.response?.data?.type) {
             case UserErrors.NO_USER_FOUND:
                 errorMessage = "User doesn't exist"
                 break;

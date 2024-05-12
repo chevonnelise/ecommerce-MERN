@@ -86,9 +86,9 @@ export const verifyToken = (req,res,next) => {
 
             next();
         })
+    } else {
+        return res.sendStatus(401);
     }
-
-    return res.sendStatus(401);
 }; 
 
 export {router as userRouter};
