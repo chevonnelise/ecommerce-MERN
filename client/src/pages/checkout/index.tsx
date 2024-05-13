@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 export const CheckoutPage = () => {
 
-    const {getCartItemCount, getTotalCartAmount} = useContext<IShopContext>(ShopContext);
+    const {getCartItemCount, getTotalCartAmount, checkout} = useContext<IShopContext>(ShopContext);
     const {products} = useGetProducts(); 
     const navigate = useNavigate();
 
@@ -18,6 +18,7 @@ export const CheckoutPage = () => {
     <div className="cart">
         <div>
             <h1>
+                
                 Your Cart Items
             </h1>
         </div>
@@ -34,7 +35,7 @@ export const CheckoutPage = () => {
         <div className="checkout">
             <p>Subtotal: ${totalAmount.toFixed(2)}</p>
             <button onClick={() => navigate("/")}>Continue Shopping</button>
-            <button>Checkout</button>
+            <button onClick={checkout}>Checkout</button>
         </div>
         ) : (
         <div className="checkout">

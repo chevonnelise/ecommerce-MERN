@@ -13,7 +13,8 @@ export const Navbar = () => {
                 <div className="navbar-links">
                     <Link to="/"> Shop </Link>
                     <Link to="/purchased-items"> Purchases </Link>
-                    <Link to="/checkout"> <FontAwesomeIcon icon={faShoppingCart} /> </Link>
+                    <Link to="/checkout"> <FontAwesomeIcon icon={faShoppingCart} /></Link>
+                    <Link to="/auth"><button className="login-btn">Login</button></Link>
                 </div >
             </div >
         </div >
