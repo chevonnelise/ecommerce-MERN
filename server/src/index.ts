@@ -10,8 +10,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-"localhost:3001/user/register"
-
 app.use("/user", userRouter);
 app.use("/product", productRouter);
 

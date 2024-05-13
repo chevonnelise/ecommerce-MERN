@@ -1,8 +1,9 @@
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useContext, useState } from "react";
 import axios from 'axios';
 import { useCookies } from "react-cookie";
 import { UserErrors } from "../../models/errors";
 import { useNavigate, Link } from 'react-router-dom';
+import { IShopContext, ShopContext } from "../../context/shop-context";
 
 export const Login = () => {
     const [username, setUsername] = useState<string>("");
@@ -10,15 +11,18 @@ export const Login = () => {
     const [_, setCookies] = useCookies(["access_token"]);
     const navigate = useNavigate();
 
+    const {setIsAuthenticated} = useContext<IShopContext>(ShopContext);
+
     const handleSubmit = async (event: SyntheticEvent) => {
         event.preventDefault();
         try {
-            const result = await axios.post("https://3001-chevonnelis-ecommerceme-73rjnovqumw.ws-us110.gitpod.io/user/login", {
+            const result = await axios.post("https://3001-chevonnelis-ecommerceme-icd9j8e02nv.ws-us110.gitpod.io/user/login", {
                 username,
                 password,
             });
             setCookies("access_token", result.data.token);
             localStorage.setItem("userID", result.data.userID);
+            setIsAuthenticated(true);
             navigate("/");
         } catch (err) {
             let errorMessage: string = "";

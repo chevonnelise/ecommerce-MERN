@@ -6,6 +6,21 @@ import { UserErrors } from '../errors';
 
 const router = Router();
 
+export const verifyToken = (req,res,next) => {
+    const authHeader = req.headers.authorization
+    if (authHeader) {
+        jwt.verify(authHeader, "secret", (err) => {
+            if (err) {
+                return res.sendStatus(403)
+            }
+
+            next();
+        })
+    } else {
+        return res.sendStatus(401);
+    }
+}; 
+
 router.post("/register", async (req,res) => {
     const {username, password} = req.body;
 
@@ -76,19 +91,19 @@ router.post("/login", async (req,res) =>{
     }
 });
 
-export const verifyToken = (req,res,next) => {
-    const authHeader = req.headers.authorization
-    if (authHeader) {
-        jwt.verify(authHeader, "secret", (err) => {
-            if (err) {
-                return res.sendStatus(403)
-            }
+router.get("/available-money/:userID", verifyToken, async (req,res) => {
+    const {userID} = req.params
 
-            next();
-        })
-    } else {
-        return res.sendStatus(401);
+    try {
+        const user = await UserModel.findById(userID)
+        if (!user) {
+            res.status(400).json({type: UserErrors.NO_USER_FOUND})
+        }
+        res.json({availableMoney: user.availableMoney})
+    } catch (err) {
+        res.status(500).json({err});
     }
-}; 
+})
+
 
 export {router as userRouter};

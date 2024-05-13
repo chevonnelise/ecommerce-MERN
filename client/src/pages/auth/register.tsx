@@ -2,6 +2,7 @@ import { SyntheticEvent, useState } from "react";
 import axios from 'axios';
 import { UserErrors } from "../../models/errors";
 import { useNavigate } from "react-router-dom";
+import './styles.css';
 
 export const Register = () => {
     const [username, setUsername] = useState<string>("");
@@ -12,11 +13,11 @@ export const Register = () => {
     const handleSubmit = async (event: SyntheticEvent) => {
         event.preventDefault();
         try {
-            await axios.post("https://3001-chevonnelis-ecommerceme-73rjnovqumw.ws-us110.gitpod.io/user/register", {
+            await axios.post("https://3001-chevonnelis-ecommerceme-icd9j8e02nv.ws-us110.gitpod.io/user/register", {
                 username,
                 password,
             });
-            alert("Registration completed. Please login to continue shopping.");
+            alert("Registration completed. Please login to purchase items.");
             setSubmitted(true);
             navigate("/auth");
         } catch (err) {
@@ -29,7 +30,8 @@ export const Register = () => {
     }
 
     return (
-        <div className="auth-container">
+    <div className="auth">
+        <div className="register-container">
             <form onSubmit={handleSubmit}>
                 <h2>Register</h2>
                 <div className="form-group">
@@ -45,6 +47,7 @@ export const Register = () => {
             {submitted && ( // Conditionally render the login button if the form is submitted
                 <button onClick={() => navigate("/auth")}>Login</button>
             )}
+        </div>
         </div>
     )
 }

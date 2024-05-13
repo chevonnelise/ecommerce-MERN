@@ -6,7 +6,7 @@ import { ProductErrors, UserErrors } from '../errors';
 
 const router = Router()
 
-router.get("/", verifyToken, async (req,res) => {
+router.get("/", async (req,res) => {
     try {
     const products = await ProductModel.find({})
     res.json({products})
@@ -72,5 +72,23 @@ router.post("/checkout", verifyToken, async (req,res)=>{
         res.status(400).json(err);
     }
 });
+
+router.get("/purchased-items/:customerID", verifyToken, async (req,res) => {
+    const {customerID} = req.params
+
+    try {
+        const user = await UserModel.findById(customerID)
+        if (!user) {
+            res.status(400).json({type: UserErrors.NO_USER_FOUND})
+        }
+
+        const products = await ProductModel.find({
+            _id: {$in: user.purchasedItems}
+        });
+        res.json({purchasedItems: products})
+    } catch (err) {
+        res.status(500).json({err});
+    }
+})
 
 export {router as productRouter};
