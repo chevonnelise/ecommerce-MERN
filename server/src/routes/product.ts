@@ -6,7 +6,7 @@ import { ProductErrors, UserErrors } from '../errors';
 
 const router = Router()
 
-router.get("/", async (req,res) => {
+router.get("/", verifyToken, async (req,res) => {
     try {
     const products = await ProductModel.find({})
     res.json({products})
